@@ -1,8 +1,9 @@
 import "./App.css";
 import FruitsMaster from "./components/FruitsMaster";
-import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { useState } from "react";
 import Panier from "./components/Panier";
+
 
 function App() {
     const [displayFruits, setDisplayFruits] = useState(false);
@@ -25,34 +26,14 @@ function App() {
     return (
         <div className="App">
             <button onClick={onClick}>Afficher / Masquer</button>
-
             {displayFruits ? (
                 <div>
-                    <Router>
-                        <div>
-                            <nav>
-                                <ul>
-                                    <li>
-                                        <Link to="/">Accueil</Link>
-                                    </li>
-                                    <li>
-                                        <Link to="/panier">Panier</Link>
-                                    </li>
-                                </ul>
-                            </nav>
-                            <Switch>
-                                <Route exact path="/">
-                                    <FruitsMaster
-                                        selectedFruits={selectedFruits}
-                                        onToggleSelection={handleToggleSelection}
-                                    />
-                                </Route>
-                                <Route path="/panier">
-                                    <Panier selectedFruits={selectedFruits} />
-                                </Route>
-                            </Switch>
-                        </div>
-                    </Router>
+                    <BrowserRouter>
+                        <Routes>
+                                <Route path="/" element={<FruitsMaster selectedFruits={selectedFruits} onToggleSelection={handleToggleSelection} />} />
+                                <Route path="/panier" element={<Panier selectedFruits={selectedFruits} />} />
+                            </Routes>
+                    </BrowserRouter>
                 </div>
             ) : (
                 <p>Aucun fruit</p>

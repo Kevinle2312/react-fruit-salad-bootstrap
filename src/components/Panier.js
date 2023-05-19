@@ -1,4 +1,5 @@
 import React from "react";
+import FruitItem from "./FruitItem";
 
 const Panier = ({ selectedFruits, fruits }) => {
     const calculateTotalPrice = () => {
