@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 // import fruits from '../data/fruits';
 import { v4 as uuid } from "uuid";
 import FruitPreview from "./FruitPreview";
+import FruitItem from "./FruitItem";
 import Fruit from "../models/Fruit";
 
 import "./FruitsMaster.css";
@@ -20,6 +21,8 @@ function FruitsMaster() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [needToReload, setNeedToReload] = useState(false);
+  const [selectedSeason, setSelectedSeason] = useState(""); //Slectioner le season de fruit
+  const [selectedFruits, setSelectedFruits] = useState([]); // Fruit dans le painer
 
   const {
     reset,
@@ -27,6 +30,14 @@ function FruitsMaster() {
     handleSubmit,
     formState: { errors },
   } = useForm();
+
+  const filteredFruits = fruits.filter((fruit) => {
+    if (selectedSeason === "") {
+      return true; // Afficher tous les fruits si aucune saison sélectionnée
+    } else {
+      return fruit.season === selectedSeason;
+    }
+  });
 
   async function onSubmitSearchForm(data) {
     const keyword = data.keyword;
@@ -76,6 +87,27 @@ function FruitsMaster() {
   //on indique que useEffect a une dépendance à needToReload
   //-> si needToReload évolue, useEffect doit être appelé
 
+  const handleToggleSelection = (fruitId) => {
+    setSelectedFruits((prevSelectedFruits) => {
+      if (prevSelectedFruits.includes(fruitId)) {
+        return prevSelectedFruits.filter((id) => id !== fruitId);
+      } else {
+        return [...prevSelectedFruits, fruitId];
+      }
+    });
+  };
+
+  const calculateTotalPrice = () => {
+    let totalPrice = 0;
+    selectedFruits.forEach((fruitId) => {
+      const selectedFruit = fruits.find((fruit) => fruit.id === fruitId);
+      if (selectedFruit) {
+        totalPrice += selectedFruit.price;
+      }
+    });
+    return totalPrice;
+  };
+
   return (
     <div className="FruitsMaster">
       <button onClick={() => onReloadData()}>Recharger les données</button>
@@ -92,12 +124,23 @@ function FruitsMaster() {
 
       {loading === true && <p>Chargement...</p>}
       {error === true && <p>Une erreur s'est produite</p>}
+      <select
+          value={selectedSeason}
+          onChange={(e) => setSelectedSeason(e.target.value)}
+      >
+        <option value="">Toutes les saisons</option>
+        <option value="hiver">Hiver</option>
+        <option value="printemps">Printemps</option>
+        <option value="été">Été</option>
+        <option value="automne">Automne</option>
+      </select>
       <div className="FruitsContainer">
         {fruits.map((fruit) => (
           <FruitPreview key={uuid()} fruit={fruit} />
         ))}
       </div>
     </div>
+
   );
 }
 

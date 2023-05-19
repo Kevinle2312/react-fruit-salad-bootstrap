@@ -1,26 +1,60 @@
 import "./App.css";
 import FruitsMaster from "./components/FruitsMaster";
+import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import { useState } from "react";
+import Panier from "./components/Panier";
 
 function App() {
-  const [displayList, setDisplayList] = useState(false);
-  //par défaut displayList a la valeur false
-  //donc on cache la liste
+  const [displayFruits, setDisplayFruits] = useState(false);
+  const [selectedFruits, setSelectedFruits] = useState([]);
+
+  const handleToggleSelection = (fruitId) => {
+      setSelectedFruits((prevSelectedFruits) => {
+          if (prevSelectedFruits.includes(fruitId)) {
+              return prevSelectedFruits.filter((id) => id !== fruitId);
+          } else {
+              return [...prevSelectedFruits, fruitId];
+          }
+      });
+  };
 
   function onClick() {
-    setDisplayList(displayList ? false : true);
-    //condition ternaire
+    setDisplayFruits(!displayFruits);
   }
 
   return (
-    <div className="App">
-      <button onClick={() => onClick()}>Afficher / Masquer</button>
+      <div className="App">
+          <button onClick={onClick}>Afficher / Masquer</button>
 
-      {/* {displayList && <FruitsMaster />}
-      {!displayList && <p>Pas de fruit</p>} */}
-
-      {displayList === true && <FruitsMaster />}
-    </div>
+          {displayFruits ? (
+              <div>
+                  <Router>
+                      <div>
+                          <nav>
+                              <ul>
+                                  <li>
+                                      <Link to="/">Accueil</Link>
+                                  </li>
+                                  <li>
+                                      <Link to="/panier">Panier</Link>
+                                  </li>
+                              </ul>
+                          </nav>
+                          <Switch>
+                              <Route exact path="/">
+                                  <FruitsMaster />
+                              </Route>
+                              <Route path="/panier">
+                                  <Panier selectedFruits={selectedFruits}/>
+                              </Route>
+                          </Switch>
+                      </div>
+                  </Router>
+              </div>
+          ) : (
+              <p>Aucun fruit</p>
+          )}
+      </div>
   );
 }
 
