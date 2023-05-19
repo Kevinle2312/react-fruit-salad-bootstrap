@@ -1,9 +1,8 @@
-import "./App.css";
+import React from "react";
 import FruitsMaster from "./components/FruitsMaster";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
 import { useState } from "react";
 import Panier from "./components/Panier";
-
 
 function App() {
     const [displayFruits, setDisplayFruits] = useState(false);
@@ -26,14 +25,10 @@ function App() {
     return (
         <div className="App">
             <button onClick={onClick}>Afficher / Masquer</button>
+
             {displayFruits ? (
                 <div>
-                    <BrowserRouter>
-                        <Routes>
-                                <Route path="/" element={<FruitsMaster selectedFruits={selectedFruits} onToggleSelection={handleToggleSelection} />} />
-                                <Route path="/panier" element={<Panier selectedFruits={selectedFruits} />} />
-                            </Routes>
-                    </BrowserRouter>
+                    <FruitsMaster />
                 </div>
             ) : (
                 <p>Aucun fruit</p>

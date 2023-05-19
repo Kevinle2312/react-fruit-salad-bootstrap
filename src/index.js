@@ -11,6 +11,7 @@ import ErrorPage from "./components/ErrorPage";
 import FruitDetails from "./components/FruitDetails";
 import Signup from "./components/Signup";
 import Signin from "./components/Signin";
+import Panier from "./components/Panier";
 
 const router = createBrowserRouter([
   {
@@ -33,6 +34,11 @@ const router = createBrowserRouter([
     element: <FruitsMaster />,
     errorElement: <ErrorPage />,
   },
+  {
+    path: "/panier",
+    element: <Panier />,
+    errorElement: <ErrorPage />,
+  }
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));

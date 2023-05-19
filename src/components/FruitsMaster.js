@@ -87,26 +87,9 @@ function FruitsMaster() {
   //on indique que useEffect a une dépendance à needToReload
   //-> si needToReload évolue, useEffect doit être appelé
 
-  const handleToggleSelection = (fruitId) => {
-    setSelectedFruits((prevSelectedFruits) => {
-      if (prevSelectedFruits.includes(fruitId)) {
-        return prevSelectedFruits.filter((id) => id !== fruitId);
-      } else {
-        return [...prevSelectedFruits, fruitId];
-      }
-    });
-  };
-
-  const calculateTotalPrice = () => {
-    let totalPrice = 0;
-    selectedFruits.forEach((fruitId) => {
-      const selectedFruit = fruits.find((fruit) => fruit.id === fruitId);
-      if (selectedFruit) {
-        totalPrice += selectedFruit.price;
-      }
-    });
-    return totalPrice;
-  };
+  function handleAddToCart(fruitId) {
+    setSelectedFruits([...selectedFruits, fruitId]);
+  }
 
   return (
     <div className="FruitsMaster">
@@ -136,7 +119,13 @@ function FruitsMaster() {
       </select>
       <div className="FruitsContainer">
         {fruits.map((fruit) => (
-          <FruitPreview key={uuid()} fruit={fruit} />
+          <FruitPreview
+              key={uuid()}
+              fruit={fruit}
+              onAddToCart={handleAddToCart}
+              selectedFruits={selectedFruits}
+              setSelectedFruits={setSelectedFruits}
+          />
         ))}
       </div>
     </div>

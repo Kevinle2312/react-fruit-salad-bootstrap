@@ -97,3 +97,27 @@
 .FruitPreview {
     margin: 1em;
 }
+
+.FruitPreview {
+    position: relative;
+}
+
+.add-to-cart {
+    position: absolute;
+    top: 80%;
+    right: 5%;
+    padding: 0;
+    /*transform: translateX(100%);*/
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #f8f8f8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.add-to-cart:hover {
+    background-color: #e8e8e8;
+}

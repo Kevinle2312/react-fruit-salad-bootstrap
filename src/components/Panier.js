@@ -16,7 +16,7 @@ const Panier = ({ selectedFruits, fruits }) => {
     return (
         <div className="panier">
             <h2>Contenu du panier</h2>
-            {selectedFruits.length === 0 ? (
+            {selectedFruits && selectedFruits.length === 0 ? (
                 <p>Aucun fruit sélectionné.</p>
             ) : (
                 <ul>
