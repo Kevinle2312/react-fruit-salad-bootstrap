@@ -3,6 +3,7 @@ import FruitsMaster from "./components/FruitsMaster";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import { useState } from "react";
 import Panier from "./components/Panier";
+import {setAuthToken} from "./components/Signin";
 
 function App() {
     const [displayFruits, setDisplayFruits] = useState(false);
@@ -17,6 +18,12 @@ function App() {
             }
         });
     };
+
+    /check jwt token
+    const token = localStorage.getItem("token");
+    if (token) {
+        setAuthToken(token);
+    }
 
     function onClick() {
         setDisplayFruits(!displayFruits);
