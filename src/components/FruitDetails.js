@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import "./FruitDetails.css";
 
 import axios from "axios";
+import useAuth from "./useAuth";
 
 const axiosInstance = axios.create({
   baseURL: "https://fruits.shrp.dev",
@@ -14,6 +15,7 @@ const axiosInstance = axios.create({
 function FruitDetails() {
   const { fruitName } = useParams();
   //récupère la valeur du nom du fruit en minuscules dans l'URI ex: fruits/:fruitName -> fruits/cerise
+  useAuth();
 
   const [fruit, setFruit] = useState(null);
   const [loading, setLoading] = useState(false);

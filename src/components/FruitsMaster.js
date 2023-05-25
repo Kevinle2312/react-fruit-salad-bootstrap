@@ -9,6 +9,7 @@ import Fruit from "../models/Fruit";
 import "./FruitsMaster.css";
 
 import axios from "axios";
+import useAuth from "./useAuth";
 
 const axiosInstance = axios.create({
   baseURL: "https://fruits.shrp.dev",
@@ -23,6 +24,7 @@ function FruitsMaster() {
   const [needToReload, setNeedToReload] = useState(false);
   const [selectedSeason, setSelectedSeason] = useState(""); //Slectioner le season de fruit
   const [selectedFruits, setSelectedFruits] = useState([]); // Fruit dans le painer
+  useAuth();
 
   const {
     reset,
@@ -88,8 +90,21 @@ function FruitsMaster() {
   //-> si needToReload évolue, useEffect doit être appelé
 
   function handleAddToCart(fruitId) {
-    setSelectedFruits([...selectedFruits, fruitId]);
+    const selectedFruit = fruits.find((fruit) => fruit.id === fruitId);
+    if (selectedFruit) {
+      const fruitIndex = selectedFruits.findIndex((fruit) => fruit.id === fruitId);
+      if (fruitIndex !== -1) {
+        const updatedSelectedFruits = [...selectedFruits];
+        // updatedSelectedFruits[fruitIndex].quantity += 1;
+        setSelectedFruits(updatedSelectedFruits);
+      } else {
+        const updatedSelectedFruits = [...selectedFruits, { ...selectedFruit, quantity: 1 }];
+        setSelectedFruits(updatedSelectedFruits);
+      }
+    }
   }
+
+
 
   return (
     <div className="FruitsMaster">
